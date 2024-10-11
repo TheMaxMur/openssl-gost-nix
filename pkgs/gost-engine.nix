@@ -17,12 +17,12 @@ stdenv.mkDerivation rec {
   };
 
   outputs = [ "out" "bin" ];
-  nativeBuildInputs = [ cmake openssl_3_3 ];
+  nativeBuildInputs = [ cmake ];
+  buildInputs = [ openssl_3_3 ];
   
   cmakeFlags = [
     "-DOPENSSL_ENGINES_DIR=bin/"
   ];
-
 
   installPhase = ''
     mkdir -p "$out"/etc/ssl
