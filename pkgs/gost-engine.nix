@@ -1,5 +1,5 @@
 { stdenv
-, fetchgit
+, fetchFromGitHub
 , cmake
 , openssl_3_3
 }:
@@ -8,10 +8,12 @@ stdenv.mkDerivation rec {
   name = "openssl-engine-gost";
   version = "3.0.3";
 
-  src = fetchgit {
-    url = "https://github.com/gost-engine/engine";
-    rev = "refs/tags/v${version}";
+  src = fetchFromGitHub {
+    owner = "gost-engine";
+    repo = "engine";
+    rev = "v${version}";
     hash = "sha256-52nt0TtPDpMjC0QCTrWYUhpHXZNCDrds0LrkQdDN1Mo=";
+    fetchSubmodules = true;
   };
 
   outputs = [ "out" "bin" ];
