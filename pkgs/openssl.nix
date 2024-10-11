@@ -14,12 +14,12 @@ openssl_3_3.overrideAttrs (old: {
     hash = "sha256-3KB0fetgXloCniFsvzzuchKgopPdQdh9/00M1mqJWyg=";
   };
 
-  buildInputs = (old.buildInputs or [])
+  buildInputs = old.buildInputs
     ++ [ openssl-gost-engine ];
 
   patches = builtins.filter (patch: !lib.hasSuffix "3.3/CVE-2024-5535.patch" (builtins.toString patch)) old.patches;
 
-  postInstall = (old.postInstall or '''') + ''
+  postInstall = old.postInstall + ''
     cp ${openssl-gost-engine}/lib/engines-3/gost.so $out/lib/engines-3/gost.so
     chmod 555 $out/lib/engines-3/gost.so
 
