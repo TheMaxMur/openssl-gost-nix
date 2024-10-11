@@ -25,8 +25,8 @@
       perSystem = { self', pkgs, ... }: {
         packages = {
           openssl-gost-engine = pkgs.callPackage ./pkgs/gost-engine.nix {};
-          openssl = pkgs.callPackage ./pkgs/openssl.nix { openssl-gost-engine = self'.packages.openssl-gost-engine; };
-          curl = pkgs.callPackage ./pkgs/curl.nix { openssl = self'.packages.openssl; };
+          openssl_3_3 = pkgs.callPackage ./pkgs/openssl.nix { openssl-gost-engine = self'.packages.openssl-gost-engine; };
+          curl = pkgs.callPackage ./pkgs/curl.nix { openssl = self'.packages.openssl_3_3; };
         };
       };
     };
