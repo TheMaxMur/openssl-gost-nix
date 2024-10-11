@@ -1,6 +1,6 @@
-{ openssl_3_3
+{ lib
+, openssl_3_3
 , fetchFromGitHub
-, fetchpatch
 , openssl-gost-engine
 }:
 
@@ -17,16 +17,7 @@ openssl_3_3.overrideAttrs (old: {
   buildInputs = (old.buildInputs or [])
     ++ [ openssl-gost-engine ];
 
-  patches = [
-    (fetchpatch {
-      url = "https://raw.githubusercontent.com/NixOS/nixpkgs/7f25b31f07c3b4cbbefad89377318f014611a2e8/pkgs/development/libraries/openssl/3.0/nix-ssl-cert-file.patch";
-      hash = "sha256-CFQO2Snf8iqRLDle4gzoUqfwW72PX3FwyIJGh4HZcr8=";
-    })
-    (fetchpatch {
-      url = "https://raw.githubusercontent.com/NixOS/nixpkgs/eeca5969b3f42ac943639aaec503816f053e5e53/pkgs/development/libraries/openssl/3.0/openssl-disable-kernel-detection.patch";
-      hash = "sha256-v/eCy29umnQF9JvRfMh++ba41Z8Ko1xe3zYqdOzaRRA=";
-    })
-  ];
+  patches = builtins.filter (patch: !lib.hasSuffix "3.3/CVE-2024-5535.patch" (builtins.toString patch)) old.patches;
 
   postInstall = (old.postInstall or '''') + ''
     cp ${openssl-gost-engine}/lib/engines-3/gost.so $out/lib/engines-3/gost.so
